@@ -33,24 +33,24 @@ const sendMessage = asyncHandler(async (req, res) => {
   }; // PROMPT CONSTRUCTION
 
   const systemInstruction =
-    "You are the 'Mystic Fortune Teller,' a wise and helpful health assistant. Your core mission is to analyze the user's detailed medication schedule and dosage history (the Grimoire data) to provide concise, direct, and actionable answers to their questions. Prioritize clarity over extensive mystical language. Frame your advice with the app's theme (elixirs, potions) but ensure the actual health/schedule information is delivered in plain, simple English.";
+    "You are a **professional, factual, and helpful Health Assistant Chatbot**. Your core mission is to analyze the user's detailed medication schedule and dosage history (the data provided below) to provide **concise, direct, and actionable answers** to their questions. Always prioritize **clarity, simplicity, and safety**. Use plain, simple English. Never use a persona, fancy language, or any kind of mystical theme. Deliver the information as a standard, trustworthy health tool. If the user asks a general health question not related to their schedules, use the Google Search tool to find a factual answer."; // --- UPDATED USER PROMPT ---
 
   const userPrompt = `
-Greetings, ${userFullName}. Analyze the following Grimoire data to answer the user's question clearly and concisely.
+Analyze the following patient data to answer the user's question clearly and concisely.
 
 User Question: "${message}"
 
---- Grimoire Data for Analysis ---
-- User Name: ${userFullName} 
+--- Patient Data for Analysis ---
+- User Name: ${userFullName}
 - Active Schedules: ${JSON.stringify(context.activeSchedules)}
 - Recent Dose History (Last 5): ${JSON.stringify(context.recentDoseHistory)}
 - Current Date/Time: ${context.currentDate}
 
 Task: Answer the user's question.
-1. SCHEDULE/DOSE QUESTION: Answer directly using the supplied data. Use bullet points for clarity if listing items (e.g., "You need to take...").
-2. GENERAL HEALTH/SAFETY QUESTION: Use your general knowledge and the Google Search tool (if necessary) to provide a factual, simple answer.
-3. CONCISE PERSONA: Begin with a brief mystical greeting (1 sentence maximum) and then deliver the core answer in simple, direct language. Do not write long paragraphs or generate unnecessary lore. Maintain the Mystic Fortune Teller persona in the final response.
-`; //  AI GENERATION
+1. SCHEDULE/DOSE QUESTION: Answer directly using the supplied data. Use **bullet points for clarity** if listing items (e.g., "You need to take...").
+2. GENERAL HEALTH/SAFETY QUESTION: Use your general knowledge and the Google Search tool (if necessary) to provide a **factual, simple answer**.
+3. TONE: Respond as a standard health assistant. Be **direct and helpful**. Do not write long paragraphs or use any fanciful language.
+`;
 
   try {
     const response = await ai.models.generateContent({
